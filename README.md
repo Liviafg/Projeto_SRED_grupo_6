@@ -236,12 +236,145 @@ $TTL    60
 
 ## Configuração do samba
 
-1.  Após conectar-se ao OpenVPN, abra o programa PuTTY e insira o endereço IP da sua máquina virtual.
+1.  Após conectar-se ao OpenVPN, abra o programa PuTTY e insira o endereço IP da sua máquina virtual. Exemplo: 10.9.24.113
 2.  Após abrir, entre com o usuário administrador e senha adminifal. 
 ```
   user: administrador
   password: adminifal
 ```
+3. No usuário administrador, digite o comando:
+``` $ sudo apt update
+```
+Para baixar e atualizar as listas de pacotes, e depois: 
+```$ sudo apt install samba```
+Para instalar o servidor Samba. Após a instalação, use o comando:
+```$ whereis samba```
+Para verificar se ele foi mesmo instalado. 
+4. É necessário realizar o backup do arquivo smb.conf 
+```$ sudo cp /etc/samba/smb.conf{,.backup}``` 
+E fazer um novo arquivo com:
+```$ sudo bash -c 'grep -v -E "^#|^;" /etc/samba/smb.conf.backup | grep . > /etc/samba/smb.conf```
+5. Agora, adicionamos a linha onde as interfaces da nossa VM se encontram para que o servidor possa se comunicar, com o comando: 
+```$ sudo nano /etc/samba/smb.conf```
+Como as nossas interfaces são ens160 e ens192, as adicionamos com espaços. Lembre-se sempre de salvar o arquivo após modificá-lo com Crtl + X e Enter: 
+
+6. Após adicionar a linha e salvar o arquivo, é necessário reiniciar o sistema com o comando ``$ sudo systemctl restart smbd`` 
+para que funcione. Agora, é preciso criar um usuário dentro da máquina para que assim haja o compartilhamento de arquivos. O nome de usuário pode ser qualquer um, desde que não possua letras maiúsculas nem caracteres especiais. O adicionamos com o comando ``$ sudo adduser <digite seu nome>``
+Defina uma senha e repita-a para a confirmação. Após realizar estes passos, use o comando 
+``$ su <digite seu nome>`` para ter acesso ao seu usuário
+``$ pwd`` para ter acesso ao home do usuário 
+e use o comando ``$ mkdir /<digite seu nome>/sambashare`` para criar o diretório sambashare. Para verificar se o sambashare foi criado, teste com o comando ``$ ls -la`` 
+
+7. Agora, para tornar o sambashare público, use o comando ``$ mkdir -p /samba/public/`` Chegamos aos últimos passos da instalação do Samba! Apenas modifique as configurações com esses três comandos: 
+``$ sudo chown -R nobody:nogroup /samba/public
+$ sudo chmod -R 0775 /samba/public
+$ sudo chgrp sambashare /samba/public
+``
+8. Teste no Explorador de Arquivos: utilize seu IP na parte esquerda a barra de pesquisa e clique em public > digite nome e senha > se acessar a pasta public, a instalação foi bem sucedida. 
+
+ ## Instalação do DNS (Master e Slave):
+ 
+1. O primeiro passo para a instalação do DNS é instalar o Bind9, o servidor para o protocolo DNS. Na interface do PuTTY, digite o comando ``$ sudo apt-get install bind9 dnsutills bind9-doc``
+2.  Quando já estiver instalado, digite ``$ sudo systemctl status bind9`` para verificá-lo, ou então ``$ ps -aux | grep named`` 
+
+3. Para voltar, pressione a tecla “q”. Agora,  é necessário criar um diretório específico para armazenar arquivos de zonas (contém arquivos dbs, com nome da máquina). Digite o comando ``$ sudo mkdir /etc/bind/zones.`` O nome da zona é “labredes.ifalarapiraca.local”, e precisamos de uma cópia de seu arquivo db para que ele armazene o nome das máquinas. Digite o comando ``$ sudo cp /etc/bind/db.empty /etc/bind/zones/db.labredes.ifalarapiraca.local.`` Criaremos também uma zona reversa, para quando se sabe o host, com o comando ``$ sudo cp /etc/bind/db.127 /etc/bind/zones/db.10.9.14.rev.`` Voltando a zona direta, o arquivo db.grupo6.turma924.ifalara.local precisa ser editado para o seu domínio, com o comando ``$ sudo nano db.grupo6.turma924.ifalara.local.``
+``
+;
+; BIND data file for internal network
+;
+$ORIGIN grupo6.turma924.ifalara.local.
+$TTL    3h
+@       IN      SOA     ns1.labredes.ifalarapiraca.local. root.labredes.ifalara>
+                              2         ; Serial
+                              3h        ; Refresh
+                              1h        ; Retry
+                              1w        ; Expire
+                              1h )      ; Negative Cache TTL
+;nameservers
+@       IN      NS      ns1.labredes.ifalarapiraca.local.
+@       IN      NS      ns2.labredes.ifalarapiraca.local.
+;hosts
+ns1.grupo6.turma924.ifalara.local.        IN    A       10.9.24.113
+ns2.grupo6.turma924.ifalara.local.        IN    A       10.9.24.217
+gw.grupo6.turma924.ifalara.local.         IN    A       10.9.24.120
+www.grupo6.turma924.ifalara.local.        IN    A       10.9.24.221
+bd.grupo6.turma924.ifalara.local.         IN    A       10.9.24.222
+``
+
+4. A zona reversa deve ser assim:
+ 
+``
+;
+; BIND reverse data file of reverse zone for local area network 10.9.24.0/24
+;
+$TTL   604800
+@      IN      SOA      labredes.ifalarapiraca.local. root.labredes.ifalarapiraca.local. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+; name servers
+@      IN     NS  ns1.livia_924.labredes.ifalarapiraca.local.
+
+; PTR Records
+10   IN      PTR    ns1.livia_924.labredes.ifalarapiraca.local.        ; 10.9.24.113
+1    IN      PTR    gw.labredes.ifalarapiraca.local.               ; 10.9.24.1
+``
+
+5. Para ativação das zonas, é preciso editar o arquivo de configuração. Digite o comando ``$ sudo nano /etc/bind/named.conf.local``
+``
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "grupo6.turma924.ifalara.local" {
+        type master;
+        file "/etc/bind/zones/db.grupo6.turma924.ifalara.local";
+        allow-transfer{ 10.9.24.121; };
+        allow-query{any;};
+};
+
+zone "14.9.10.in-addr.arpa" IN {
+        type master;
+        file "/etc/bind/zones/db.10.9.24.rev";
+        allow-transfer{ 10.9.24.121; };
+};
+``
+
+6. Agora, devemos verificar a sintaxe de configuração, ou seja, fazer a checagem de arquivos, com o comando ``$ sudo named-checkconf`` e ``$ cd /etc/bind/zones`` e ``$ sudo named-checkzone grupo6.turma924.ifalara.local db.grupo6.turma924.ifalara.local``
+
+7. Configure para endereços IPv4 com o comando ``$ sudo nano /etc/default/named``
+
+8. Modifique a linha 6, ponha ``“OPTIONS = “-4 -u bind”`` no lugar. 
+ 
+
+9. Teste o bind e reinicie-o para que a implementação dê certo com os comandos ``$ sudo systemctl enable bind9`` e ``$ sudo systemctl restart bind9``
+10.  Agora, configure o dns na sua máquina, com o comando ``$ sudo nano /etc/netplan/50-cloud-init.yaml.`` O arquivo deve conter estas informações:
+
+``
+network:
+    ethernets:
+        enp0s3:                        # interface local
+            addresses: [10.9.24.10/24]  # ip/mascara
+            gateway4: 10.9.24.1         # ip do gateway
+            dhcp4: false               # 'false' para conf. estatica
+            nameservers:               # servidores dns
+                addresses:
+                - 10.9.24.113            # ip do ns1
+                search: [grupo6.ifalara.local]  # domínio
+    version: 2
+``
+
+11. Teste o servidor DNS como cliente com o comando ``$ systemd-resolve –status enp0s3`` Depois, teste como sua máquina, com o comando ``$ dig ns1.grupo6.turma924.ifalara.local`` e a zona reversa com o comando ``$ dig -x 10.9.14.10``
+
+
+
+
  
 
 
