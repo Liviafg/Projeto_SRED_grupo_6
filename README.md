@@ -234,6 +234,15 @@ $TTL    60
 ```
 ---
 
+## Configuração do samba
+
+1.  Após conectar-se ao OpenVPN, abra o programa PuTTY e insira o endereço IP da sua máquina virtual.
+2.  Após abrir, entre com o usuário administrador e senha adminifal. 
+```
+  user: administrador
+  password: adminifal
+```
+ 
 
 
 
