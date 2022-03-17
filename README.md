@@ -234,6 +234,76 @@ $TTL    60
 ```
 ---
 
+## Configuração do DNS Slave 
+
+1. Primeiro, é necessário usar o ns1 para fazer com que o ns2 acesse a rede de Internet. Configure a interface de rede com o comando:
+```
+netplan
+$ sudo nano /etc/netplan/00-instaler-config.yaml 
+```
+Ela deve ficar assim:
+```
+network:
+    ethernets:
+        ens160:                        # interface local
+            addresses: [10.9.14.255/24]  # ip/mascara
+            gateway4: 10.9.24.1         # ip do gateway
+            dhcp4: false               # 'false' para conf. estatica 
+            nameservers:               # servidores dns
+                addresses:
+                - 10.9.14.113            # ip do ns1
+                - 10.9.14.121           # ip do ns2
+                search: [labredes.ifalarapiraca.local]  # domínio
+    version: 2
+```
+2. Configure com: 
+```
+$ sudo netplan apply
+```
+3. Dê ifconfig:
+```
+$ ifconfig
+```
+4. Instale o DNS Slave:
+```
+$ sudo apt-get install bind9 dnsutils bind9-doc -y
+```
+5. Veja se está pegando:
+```
+$ sudo systemctl status bind9
+```
+6. Senão estiver rodando, teste novamente com:
+```
+$ sudo systemctl enable bind9
+```
+7. Agora, é necessário configurar as zonas. Digite o comando:
+```
+$ sudo nano /etc/bind/named.conf.local
+```
+E a deixe assim:
+```
+zone "grupo6.turma924.ifalara.local" {
+  type slave;
+  file "/etc/bind/zones/db.grupo6.turma924.ifalara.local";
+  masters { 10.9.24.113; };
+};
+
+zone "14.9.10.in-addr.arpa" IN {
+  type slave;
+  file "/etc/bind/zones/db.10.9.24.rev";
+  masters { 10.9.14.121; };
+};
+```
+8. Cheque se está tudo bem com:
+```  
+$ sudo named-checkconf
+```
+9. Use o comando dig para resolver algum hostname
+```
+$ dig @10.9.24.113 ns1.grupo6.turma924.ifalara.local
+```
+10. Veja a resposta em ANSWER SECTION, pronto! Slave instalado. 
+
 ## Configuração do samba
 
 1.  Após conectar-se ao OpenVPN, abra o programa PuTTY e insira o endereço IP da sua máquina virtual. Exemplo: 10.9.24.113
