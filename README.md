@@ -1,9 +1,9 @@
-# SREDgrupo6
+# INFRAESTRUTURA E SERVIÇOS DE REDES
 Desenvolvimento de rede de computador virtualizada.
 ## Dados da equipe e do professor
 
 ```
-Equipe: 
+Equipe 6: 
 Lívia Maria Figueiroa Dos Santos
 Silvana Silva Farias 
 Matheus de Melo Santos
