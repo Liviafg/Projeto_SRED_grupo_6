@@ -628,3 +628,47 @@ $ chown -R www-data:www-data www.grupox.turma914.ifalara.local
 ```
 $ sudo systemclt reload apache2
 ```
+## Script para database demo 
+
+1. Acesse a máquina virtual do BD. 
+
+2. Digite o seguinte comando para carregar o script dentro do seu banco de dados:
+```
+$ sudo mysql
+mysql> source createdb.sql
+mysql> exit
+```
+3. Crie a database ``projetofinal_sred`` e em seguida, crie as tabelas grupo, aluno e host:
+```
+mysql> select * from grupo;
++-----+----------+--------------------------------+
+| GID | Nome     | Dominio                        |
++-----+----------+--------------------------------+
+|  06 | Grupo  6 | grupo6.turma924.ifalara.local  |
++-----+----------+--------------------------------+
+
+mysql> select * from aluno;
++-----+-----------------+-------------------------+-------+
+| UID | Nome            | Email                   | GID   |
++-----+-----------------+-------------------------+-------+
+|  13 | Livia Maria F.  | lmfs1@aluno.ifal.edu.br |  6    |
++-----+-----------------+-------------------------+-------+
+|  15 | Matheus Melo    | @mms11@aluno.ifal.edu.br|  6    |
++-----+-----------------+-------------------------+-------+
+|  20 | Silvana Farias  | @ssf4@aluno.ifal.edu.br |  6    |
++-----+-----------------+-------------------------+-------+
+|  21 | Tayllane Barbosa| @tbs4@aluno.ifal.edu.br |  6    |
++-----+-----------------+-------------------------+-------+
+
+mysql> select * from host;
++-----+--------------+------------------------------------+------+
+| HID | VmName       | FQDName                            | GID  |
++-----+--------------+------------------------------------+------+
+|   6 | Servidor Web | www.grupo6.turma924.ifalara.local  |  6   |
++-----+--------------+------------------------------------+------+
+```
+4. Descompacte o arquivo script_teste_db.zip 
+```
+ $ sudo apt install zip unzip -y
+```
+5. Agora, é só executar os scripts de teste!
