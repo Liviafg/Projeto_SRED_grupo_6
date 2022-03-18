@@ -580,3 +580,51 @@ Success.
 All done! 
 ```
 9. Digite ``$ sudo mysql`` para iniciá-lo e depois digite ``exit`` para sair do terminal.  
+
+## Configurando o Virtual-Host no Apache 
+
+1. No servidor www.grupo6.turma924.ifalara.local digite o comando: 
+```
+$ cd /etc/apache2/sites-available
+$ ls -la
+-rw-r--r-- 1 root root 1332 Mar 12 15:02 000-default.conf
+-rw-r--r-- 1 root root 6338 Sep 30  2020 default-ssl.conf
+```
+2. Faça uma cópia do arquivo ``000-default.conf`` para o www.grupo6.turma924.ifalara.local.conf:
+```
+$ cp 000-default.conf www.grupo6.turma924.ifalara.local.conf
+```
+3. Edite o arquivo www.grupo6.turma924.ifalara.local.conf com vi ou sudo nano e adiciona as seguintes linhas:
+```
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost                              # Pessoa que administra o site
+	DocumentRoot /var/www/www.grupo6.turma924.ifalara.local      # Diretório onde os arquivos do site ficarão
+	ServerName www.grupo6.turma924.ifalara.local                 # Nome do servidor, ou seja, a url raíz do site.
+<\VirtualHost>
+```
+4. Digite o comando ``$ sudo a2ensite www.grupo6.turma924.ifalara.local.conf`` para habilitar seu arquivo. 
+```
+$ sudo a2ensite www.grupox.turma914.ifalara.local.conf
+Enabling site www.grupox.turma914.ifalara.local.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+```
+5. Reinicie a máquina virtual: 
+```
+$ sudo systemclt reload apache2
+```
+6. Crie o diretório que vai obter os arquivos do site:
+```
+$ cd /var/www/
+$ sudo mkdir www.grupox.turma914.ifalara.local
+$ ls -la
+```
+7. Altere as permissões de proprietário do diretório: 
+```
+$ cd /var/www
+$ chown -R www-data:www-data www.grupox.turma914.ifalara.local
+```
+8. Reinicie a máquina novamente e coloque os arquivos da página dentro do diretório ``DocumentRoot``:
+```
+$ sudo systemclt reload apache2
+```
