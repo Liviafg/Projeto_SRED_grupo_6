@@ -1,5 +1,16 @@
 # SREDgrupo6
 Desenvolvimento de rede de computador virtualizada.
+## Dados da equipe e do professor
+
+```
+Equipe: 
+Lívia Maria Figueiroa Dos Santos
+Silvana Silva Farias 
+Matheus de Melo Santos
+Tayllane Barbosa Santos    
+Turma: 924
+Professor: Alaelson Jatobá
+```
 
 # Configuração de Interface de Rede
 
