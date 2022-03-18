@@ -98,7 +98,7 @@ $ ifconfig -a
 $ sudo systemctl enable bind9
 ```
 ## 4. Implementação dos Serivços de Rede (Cada serviço uma sessão)
-   ## *4.2 Confligurando o DNS Master:*
+   ## *4.2 Configurando o DNS Master:*
    
 ### Instalação necessária do Bind9 
    * Vale ressaltar que o BIND9 é a aplicação de DNS que roda no servidor.
@@ -480,3 +480,92 @@ sudo touch /var/www/html/info.php
 ```
 http://10.9.14.221/info.php
 ```
+## Configurando o Servidor MYSQL
+
+1. Atualize os pacotes:
+```
+$ sudo apt update | sudo apt upgrade -y
+```
+2. Instale o MYSQL:
+```
+$ sudo apt install mysql-server
+```
+3. Veja se está tudo ok:
+```
+$ systemctl status mysql
+```
+4. Para verificar as conexões, use:
+```
+$ netstat -an | grep LISTEN
+```
+5. Edite o arquivo ``/etc/mysql/mysql.conf.d/mysqld.cnf`` para:
+```
+# localhost which is more compatible and is not less secure.
+bind-address            = 0.0.0.0
+mysqlx-bind-address     = 0.0.0.0
+```
+6. Reinicie o MYSQL:
+```
+$ systemctl restart mysql
+```
+7. Ponha senha no MYSQL com ``mysql_secure_installation``:
+```
+$ sudo mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Connecting to MySQL using a blank password.
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No:
+```
+8. Digite y para sim e digite 2 para uma senha forte. Em seguida, digite a senha e responda o resto. 
+```
+Please set the password for root here.
+
+New password: 
+
+Re-enter new password: 
+
+Estimated strength of the password: 100 
+Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : y
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : n
+
+ ... skipping.
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+All done! 
+```
+9. Digite ``$ sudo mysql`` para iniciá-lo e depois digite ``exit`` para sair do terminal.  
