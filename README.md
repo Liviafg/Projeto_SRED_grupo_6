@@ -370,3 +370,85 @@ $ sudo chmod -R 0775 /samba/public
 $ sudo chgrp sambashare /samba/public
 ```
 8. Teste no Explorador de Arquivos: utilize seu IP na parte esquerda a barra de pesquisa e clique em public > digite nome e senha > se acessar a pasta public, a instalação foi bem sucedida. 
+
+## Instalação do LAMP 
+
+1. Para se instalar o servidor LAMP, primeiro é necessário ir a máquina www. 
+ 
+2. Depois, atualize os pacotes com o comando: 
+```
+$ sudo apt update | sudo apt upgrade -y
+```
+3. Para instalar o Apache:
+```
+$ sudo apt install -y apache2 apache2-utils
+```
+4. Verifique se está tudo ok com ``$systemctl status apache2``
+```
+$systemctl status apache2
+```
+```
+$ systemctl status apache2
+● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2022-03-06 19:19:04 UTC; 24s ago
+       Docs: https://httpd.apache.org/docs/2.4/
+   Main PID: 10597 (apache2)
+      Tasks: 55 (limit: 462)
+     Memory: 5.3M
+     CGroup: /system.slice/apache2.service
+             ├─10597 /usr/sbin/apache2 -k start
+             ├─10599 /usr/sbin/apache2 -k start
+             └─10600 /usr/sbin/apache2 -k start
+
+Mar 06 19:19:04 ubuntu-server-lts systemd[1]: Starting The Apache HTTP Server...
+Mar 06 19:19:04 ubuntu-server-lts apachectl[10596]: AH00558: apache2: Could not reliably determine the server's>
+Mar 06 19:19:04 ubuntu-server-lts systemd[1]: Started The Apache HTTP Server.
+```
+5. Caso não esteja pegando na sua máquina:
+```
+sudo systemctl start apache2
+```
+6. Para que ele inicie automaticamente na máquina:
+```
+$ sudo systemctl enable apache2
+```
+```$ systemctl enable apache2
+Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable apache2
+==== AUTHENTICATING FOR org.freedesktop.systemd1.reload-daemon ===
+Authentication is required to reload the systemd state.
+Authenticating as: Administrador (administrador)
+Password: 
+==== AUTHENTICATION COMPLETE ===
+```
+7. É necessário pôr o usuário do Apache como o proprietário da raiz do documento/raiz da web.
+```
+sudo chown www-data:www-data /var/www/html/ -R 
+$ ls -la /var/www
+drwxr-xr-x  2 www-data www-data 4096 Mar  7 15:21 html
+```
+8. Quando se executa o comando ``apache2ctl -t`` acontece um erro, por isso se faz necessário uma correção. Para corrigir, modifica a alteração global para ServerName. 
+```
+$ sudo tourch /etc/apache2/conf-available/servername.conf
+```
+9. Escreva no arquivo servername.conf:
+```
+sudo nano ServerName localhost
+```
+10. Salve e feche o arquivo e em seguida digite o comando:
+```
+sudo a2enconf servername.conf
+```
+11. Recarregue com o comando:
+```
+sudo systemctl reload apache2
+```
+12. Verifique se está tudo ok:
+```
+$ apache2ctl -t 
+```
+13. Acesse seu site com seu ip:
+```
+http://10.9.14.221
+```
