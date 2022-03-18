@@ -452,3 +452,31 @@ $ apache2ctl -t
 ```
 http://10.9.14.221
 ```
+## Configurando o Servidor Web
+
+1. Atualize os pacotes: 
+```
+$ sudo apt update | sudo apt upgrade -y
+```
+2. Instale com o comando: 
+```
+$ sudo apt install php7.4 libapache2-mod-php7.4 php7.4-mysql php-common php7.4-cli php7.4-common php7.4-common php7.4-json php7.4-opcache php7.4-readline
+```
+3. O carregue e reinicie o sistema: 
+```
+sudo a2enmod php7.4
+
+sudo systemctl restart apache2
+```
+4. Agora, é preciso se fazer uma página info para testes:
+```
+sudo touch /var/www/html/info.php
+```
+5. Edite o arquivo e adicione:
+```
+<?php phpinfo(); ?>
+```
+6. Agora, acesse o site com o ip: 
+```
+http://10.9.14.221/info.php
+```
