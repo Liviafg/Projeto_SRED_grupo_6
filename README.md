@@ -382,6 +382,33 @@ $ sudo chgrp sambashare /samba/public
 ```
 8. Teste no Explorador de Arquivos: utilize seu IP na parte esquerda a barra de pesquisa e clique em public > digite nome e senha > se acessar a pasta public, a instalação foi bem sucedida. 
 
+## Antes de Darmos prosseguimento a implementação das novas VM's tomaremos como base as seguintes
+## Definições de Rede:
+
+| DESCRIÇÃO   | ens160         | ens192         |
+|:------------|:---------------| ---------------|
+| rede        | 10.9.24.0/24   | 192.168.24.41  |
+| Gateway     | 10.9.24.120    | 192.168.24.41  |
+| Broadcast   | 10.9.24.255/24 | 192.168.24.47  |
+| NameServer1 | 10.9.24.113    | 192.168.24.46  |
+| NameServer2 | 10.9.24.121    | 192.168.24.47  |
+| Samba       | 10.9.24.115    | 192.168.24.42  |
+| Server BD   | 10.9.24.222    | 192.168.24.43  |
+| server LAMP | 10.9.24.221    | 192.168.24.44  |
+
+Definições de Dominios de nossas VM's
+
+| Nome        | Dominio                             |
+|-------------|-------------------------------------|
+| Gateway     | gw.grupo6.turma924.ifalara.local    |
+| NameServer1 | ns1.grupo6.turma924.ifalara.local   |
+| NameServer2 | ns2.grupo6.turma924.ifalara.local   |
+| Samba       | samba.grupo6.turma924.ifalara.local |
+| Server LAMP | www.grupo6.turma924.ifalara.local   |
+| Server BD   | bd.grupo6.turma924.ifalara.local    |
+
+
+
 ## Instalação do LAMP 
 
 1. Para se instalar o servidor LAMP, primeiro é necessário ir a máquina www. 
