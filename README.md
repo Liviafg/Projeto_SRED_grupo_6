@@ -724,7 +724,7 @@ total 16
 drwxr-xr-x  4 root     root     4096 Mar 12 14:45 .
 drwxr-xr-x 14 root     root     4096 Mar  6 19:18 ..
 drwxr-xr-x  2 www-data www-data 4096 Mar 12 14:48 html
-drwxr-xr-x  3 www-data www-data 4096 Mar 12 23:08 www.grupox.turma914.ifalara.local
+drwxr-xr-x  3 www-data www-data 4096 Mar 12 23:08 www.grupo6.turma914.ifalara.local
 ```
 
 
