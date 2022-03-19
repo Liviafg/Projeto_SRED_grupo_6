@@ -382,8 +382,8 @@ $ sudo chgrp sambashare /samba/public
 ```
 8. Teste no Explorador de Arquivos: utilize seu IP na parte esquerda a barra de pesquisa e clique em public > digite nome e senha > se acessar a pasta public, a instalação foi bem sucedida. 
 
-## Antes de Darmos prosseguimento a implementação das novas VM's tomaremos como base as seguintes
-## Definições de Rede:
+## Antes de Darmos prosseguimento a implementação das novas VM's tomaremos como base as seguintes definições:
+### Definições de IP de Rede:
 
 | DESCRIÇÃO   | ens160         | ens192         |
 |:------------|:---------------| ---------------|
@@ -396,7 +396,7 @@ $ sudo chgrp sambashare /samba/public
 | Server BD   | 10.9.24.222    | 192.168.24.43  |
 | server LAMP | 10.9.24.221    | 192.168.24.44  |
 
-Definições de Dominios de nossas VM's
+### Definições de Dominios de nossas VM's
 
 | Nome        | Dominio                             |
 |-------------|-------------------------------------|
