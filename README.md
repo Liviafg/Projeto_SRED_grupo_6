@@ -733,15 +733,15 @@ drwxr-xr-x  3 www-data www-data 4096 Mar 12 23:08 www.grupox.turma914.ifalara.lo
 
 1 - Home Page
 <p><center> Figura 1: Execução do arquivo ``index.html`` no browser</center></p>   
-   <img src="imagemum.jpeg" alt="Home Page"
+   <img src="sitedemo_homepage.png" alt="Home Page"
 	title="Figura 1: Execução do arquivo index.html no browser" width="540" height="480" />
 2 - Cadastrar Dados 
 <p><center> Figura 2: execução do arquivo ``insert.html`` no browser</center></p>   
-   <img src="imagemdois.jpeg" alt="Cadastrar Dados"
+   <img src="sitedemo_cadastrardados.png" alt="Cadastrar Dados"
 	title="Figura 2: Cadastro" width="540" height="500" />
 3 - Consultar Dados
 <p><center> Figura 3: execução do arquivo de consulta ``consult.php`` no browser</center></p>   
-   <img src="imagemtres.jpeg" alt="Consultar Dados"
+   <img src="imagemdois.png" alt="Consultar Dados"
 	title="Figura 3: Consultar Dados" width="540" height="360" />
 4 - Atualizar Dados
 <p><center> Figura 4: execução do arquivo de atualização ``update.html`` no browser</center></p>   
