@@ -703,7 +703,7 @@ mysql> select * from host;
 ## Site Demo para Integração do Serviço LAMP
 
 1. Faça o download do Site Demo após as configuração do Virtual-Host no apache e da Configuração e Teste do Servidor de Banco de dados.
-2. Baixe um programa sFTP e envie o arquivo zip para o servidor DB: como Filezilla ou o WinSCP.
+2. Baixe um programa sFTP e envie o arquivo zip para o servidor DB: WinSCP.
 3. Faça a conexão ao servidor usando a porta 22 (ssh) ou especifique o protocolo sFTP.
 4. Procure o arquivo zip que foi baixado e arraste e solte (drag and drop) no servidor remoto.
 <p><center> Figura 1: Exemplo de uso do Filezilla para enviar um arquivo via sFTP para o servidor</center></p>   
@@ -716,7 +716,7 @@ mysql> select * from host;
 $ unzip www.grupo6.turma914.ifalara.local.zip
 $ sudo cp -r www.grupo6.turma914.ifalara.local /var/www/
 ```
-6. Faça as modificação das propriedade da pasta para o usuário do apache ``www-data``.
+6. Faça as modificações das propriedades da pasta para o usuário do apache ``www-data``.
 ```bash
 $ sudo chown www-data:www-data /var/www/www.grupo6.turma914.ifalara.local
 $ ls -la /var/www/
@@ -758,7 +758,7 @@ drwxr-xr-x  3 www-data www-data 4096 Mar 12 23:08 www.grupo6.turma914.ifalara.lo
 
 ### habilitar o firewall 
    
-   1. Habilite o firewall e permita o acesso ssh:
+   1. Habilite o firewall e permita o acesso ssh com os comandos:
 ```bash
  $ sudo ufw enable
  $ sudo ufw allow ssh
@@ -855,7 +855,7 @@ exit 0
 ```bash
 $ sudo chmod 755 /etc/rc.local
 ```
-   8. Varifique se o firewall está funcionando
+   8. Varifique se o firewall está ok
 ```bash
 $ sudo ufw status
 ```
