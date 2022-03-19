@@ -718,7 +718,7 @@ $ sudo cp -r www.grupo6.turma914.ifalara.local /var/www/
 ```
 6. Faça as modificação das propriedade da pasta para o usuário do apache ``www-data``.
 ```bash
-$ sudo chown www-data:www-data /var/www/www.grupox.turma914.ifalara.local
+$ sudo chown www-data:www-data /var/www/www.grupo6.turma914.ifalara.local
 $ ls -la /var/www/
 total 16
 drwxr-xr-x  4 root     root     4096 Mar 12 14:45 .
