@@ -921,3 +921,18 @@ iptables -A FORWARD -p tcp -d 10.0.0.100 –-dport 445 -j ACCEPT
 iptables -A PREROUTING -t nat -i enp0s3 -p tcp –-dport 53 -j DNAT –-to 10.0.0.10:53
 iptables -A FORWARD -p udp -d 10.0.0.10 –-dport 53 -j ACCEPT
 ```
+
+ ## Resultado de testes das implementações
+
+<img src="imagens/img1.png">
+<img src="imagens/img2.png">
+<img src="imagens/img3.png">
+<img src="imagens/img4.png">
+<img src="imagens/img5.png">
+<img src="imagens/img6.png">
+<img src="imagens/img7.png">
+<img src="imagens/img8.png">
+<img src="imagens/img9.png">
+<img src="imagens/img10.png">
+<img src="imagens/img11.png">
+<img src="imagens/img12.png">
