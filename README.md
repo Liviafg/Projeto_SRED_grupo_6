@@ -895,8 +895,8 @@ $ ifconfig -a
 
   11. Encaminhamento de portas para acesso externo à serviços da rede interna.
   
-  * Para permitir que o serviço de compartilhamento de arquivos esteja disponível externamente, adicione as informações do IPTABLES sobre portas, IP e Interface no arquivo /etc/rc.local conforme o exemplo abaixo, depois reinicie a máquina:
-  
+  * Adicione as informações do IPTABLES sobre portas, IP e Interface no arquivo /etc/rc.local conforme o exemplo abaixo, depois reinicie a máquina:
+ 
    a. SAMBA: Para permitir que o serviço de compartilhamento de arquivos esteja disponível externamente:
         * Portas: 445 e 139
         * Interface Externa aqui é a WAN: enp0s3
